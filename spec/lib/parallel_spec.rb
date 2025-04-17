@@ -148,7 +148,9 @@ RSpec.describe 'ParalellTest' do
           new(...).execute!
         end
 
-        def execute! = raise StandardError
+        def execute!
+          raise StandardError
+        end
       end
 
       expect do
@@ -167,7 +169,9 @@ RSpec.describe 'ParalellTest' do
           ract { new(...).execute! }
         end
 
-        def execute! = raise StandardError
+        def execute!
+          raise StandardError
+        end
       end
 
       expect do
