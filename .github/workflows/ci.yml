@@ -51,22 +51,22 @@ jobs:
       - name: Generate documentation
         run: bundle exec rdoc -o docs/
       
-      - name: Upload documentation
-        uses: actions/upload-artifact@v4
-        with:
-          name: documentation
-          path: ./docs/
-          if-no-files-found: warn
+      # - name: Upload documentation
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: documentation
+      #     path: ./docs/
+      #     if-no-files-found: warn
 
-      - name: Download documentation
-        uses: actions/download-artifact@v4
-        with:
-          name: documentation
-          path: ./docs/
+      # - name: Download documentation
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: documentation
+      #     path: ./docs/
 
-      - name: Deploy
-        uses: actions/deploy-pages@v4
-        with:
-          environment: ${{ steps.environment.outputs.environment }}
+      # - name: Deploy
+      #   uses: actions/deploy-pages@v4
+      #   with:
+      #     environment: ${{ steps.environment.outputs.environment }}
           
           
