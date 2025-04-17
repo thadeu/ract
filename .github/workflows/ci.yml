@@ -36,14 +36,11 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
+          ruby-version: '3.4.2'
           bundler-cache: true
       
-      - name: Install YARD
-        run: gem install yard
-      
       - name: Generate documentation
-        run: yard doc --output-dir docs
+        run: bundle exec rdoc -o docs
       
       - name: Upload documentation
         uses: actions/upload-artifact@v3
