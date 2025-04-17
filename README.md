@@ -1,10 +1,21 @@
-<h1 style="z-index: 999;">Ract</h1>
+<div href="#" style="text-align: center; width: 70%; margin: 0 auto;">
+  <img src="./images/ract-no-bg.png" alt="Ract Logo"  style="position: relative; margin-top: -50px; z-index: 1; display: flex; align-items: center; justify-content: center; text-align: center; mix-blend-mode: overlay;">
+</div>
 
-<center>
-  <img src="./images/ract-no-bg.png" alt="Ract Logo" width="65%" style="position: relative; margin-top: -50px; z-index: -1; mix-blend-mode: overlay;">
-</center>
+<h1 style="z-index: 999; text-align: center;">Ract</h1>
 
-Ract is a lightweight Promise implementation for Ruby, providing a clean and intuitive way to handle asynchronous operations. It follows a similar pattern to JavaScript Promises, making it easy to write non-blocking code with proper error handling.
+Ract is a lightweight Promise implementation for Ruby, simliar color promises in JavaScript providing a clean and intuitive way to handle asynchronous operations.
+
+> [!NOTE] This is dont use Ractor, we just Threads to handle async operations
+
+[![CI](https://github.com/thadeu/ract/workflows/ci/badge.svg)](https://github.com/thadeu/ract/actions?workflow=ci)
+
+# Features
+
+- Thread-safe
+- Similar to JavaScript Promises
+- Clean and intuitive API
+- Easy to use
 
 ## Installation
 
