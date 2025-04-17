@@ -40,7 +40,7 @@ jobs:
           bundler-cache: true
       
       - name: Generate documentation
-        run: bundle exec rdoc
+        run: bundle exec rdoc -o docs/
       
       - name: Upload documentation
         uses: actions/upload-artifact@v4
