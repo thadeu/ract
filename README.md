@@ -1,8 +1,10 @@
-# Ract
+<h1 style="z-index: 999;">Ract</h1>
 
 <center>
-Ract is a lightweight Promise implementation for Ruby, providing a clean and intuitive way to handle asynchronous operations. It follows a similar pattern to JavaScript Promises, making it easy to write non-blocking code with proper error handling.
+  <img src="./images/ract-no-bg.png" alt="Ract Logo" width="65%" style="position: relative; margin-top: -50px; z-index: -1; mix-blend-mode: overlay;">
 </center>
+
+Ract is a lightweight Promise implementation for Ruby, providing a clean and intuitive way to handle asynchronous operations. It follows a similar pattern to JavaScript Promises, making it easy to write non-blocking code with proper error handling.
 
 ## Installation
 
