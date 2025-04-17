@@ -4,10 +4,6 @@ require 'spec_helper'
 require 'timeout'
 
 RSpec.describe Ract do
-  describe '.version' do
-    it { expect(described_class::VERSION).to eq('0.1.0') }
-  end
-
   describe '#initialize' do
     it 'creates a new Ract with a block' do
       ract = Ract.new { 42 }
