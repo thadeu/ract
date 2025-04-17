@@ -326,7 +326,7 @@ RSpec.describe Ract do
       results = []
 
       ract
-        .then { results << it * 2 }
+        .then { results << _1 * 2 }
         .then { results << 'second then' }
 
       sleep 0.1
@@ -339,7 +339,7 @@ RSpec.describe Ract do
       results = []
 
       ract
-        .then { results << it * 2 }
+        .then { results << _1 * 2 }
         .rescue { |_| results << 'error handled' }
 
       sleep 0.1
