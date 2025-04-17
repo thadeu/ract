@@ -54,3 +54,11 @@ jobs:
         with:
           name: documentation
           path: docs/
+
+      - name: Configure pages
+        uses: actions/configure-pages@v4
+        with:
+          source: docs
+
+      - name: Deploy
+        uses: actions/deploy-pages@v4
