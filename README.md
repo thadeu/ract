@@ -1,4 +1,4 @@
-<div href="#" style="text-align: center; width: 70%; margin: 0 auto;">
+<div href="#" style="text-align: center; width: 50%; margin: 0 auto;">
   <img src="./images/ract-no-bg.png" alt="Ract Logo"  style="position: relative; margin-top: -50px; z-index: 1; display: flex; align-items: center; justify-content: center; text-align: center; mix-blend-mode: overlay;">
 </div>
 
