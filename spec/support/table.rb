@@ -16,7 +16,9 @@ class Table::Base
 end
 
 class Table::Posts < Table::Base
-  def execute! = @user_id
+  def execute!
+    @user_id
+  end
 end
 
 class MethodAsync
