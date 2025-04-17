@@ -10,7 +10,9 @@ Ract is a lightweight Promise implementation for Ruby, simliar color promises in
 > This is dont use Ractor, we just Threads to handle async operations
 > Enjoy with us!
 
+
 [![CI](https://github.com/thadeu/ract/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/thadeu/ract/actions/workflows/ci.yml)
+[![Gem Version](https://badge.fury.io/rb/ract.svg)](https://badge.fury.io/rb/ract)
 
 # Features
 
