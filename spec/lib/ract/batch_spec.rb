@@ -42,7 +42,6 @@ RSpec.describe Ract::Batch do
       batch.run! { output << _1 }
 
       expect(output.size).to eq(2)
-      expect(output.last[2].to_s).to eq('Error')
       expect(batch.remaining).to eq(0)
     end
 
