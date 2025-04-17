@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email = ['tadeuu@gmail.com']
   spec.summary = 'A simple and lightweight gem to wrapper Threads(Promises) like JavaScript in Ruby'
   spec.description = 'A simple and lightweight gem to wrapper Threads(Promises) like JavaScript in Ruby, adding a color to Ruby Threads'
-  spec.homepage = 'https://github.com/thadeu/ract-rb'
+  spec.homepage = 'https://github.com/thadeu/ract'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 2.7.0'
 

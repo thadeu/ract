@@ -39,7 +39,7 @@ RSpec.describe Ract::Batch do
       batch = Ract::Batch.new(promises)
       output = []
 
-      batch.run! { output << it }
+      batch.run! { output << _1 }
 
       expect(output.size).to eq(2)
       expect(output.last[2].to_s).to eq('Error')

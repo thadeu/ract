@@ -109,19 +109,19 @@ RSpec.describe Ract do
 
     it 'chainning then and catch' do
       Ract { 1 }
-        .then { expect(it).to eq(1) }
-        .catch { expect { it }.not_to raise_error }
+        .then { expect(_1).to eq(1) }
+        .catch { expect { _1 }.not_to raise_error }
 
       Ract { 1 }
         .then do
-          expect(it).to eq(1)
+          expect(_1).to eq(1)
           raise 'Test error'
         end
         .then do
-          expect(it).not_to eq(1)
+          expect(_1).not_to eq(1)
         end
         .catch do
-          expect(it.to_s).to eq('Test error')
+          expect(_1.to_s).to eq('Test error')
         end
     end
 
