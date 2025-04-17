@@ -5,7 +5,7 @@ require 'ract/batch'
 require 'ract/result'
 require 'ract/settled'
 require 'ract/async'
-require 'ract/single_methods'
+require 'ract/singleton_methods'
 require 'ract/ract'
 
 # A lightweight Promise implementation for Ruby

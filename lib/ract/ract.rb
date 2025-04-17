@@ -113,7 +113,7 @@ class Ract
   alias catch rescue
 
   class << self
-    include SingleMethods
+    include SingletonMethods
   end
 
   private

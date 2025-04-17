@@ -1,7 +1,7 @@
 # frozen_string_literal: true # :rdoc
 
 class Ract
-  module SingleMethods
+  module SingletonMethods
     def resolve(value = nil, auto_execute: false)
       new(auto_execute: true) { value }.await
     end
