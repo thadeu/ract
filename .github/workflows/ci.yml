@@ -53,4 +53,4 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: documentation
-          path: downloaded-docs/
+          path: docs/
