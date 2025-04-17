@@ -48,3 +48,9 @@ jobs:
           name: documentation
           path: docs/
           if-no-files-found: warn
+
+      - name: Download documentation
+        uses: actions/download-artifact@v3
+        with:
+          name: documentation
+          path: downloaded-docs/
