@@ -14,5 +14,4 @@ group :test do
   gem 'rspec'
   gem 'simplecov', '~> 0.22.0', require: false
   gem 'simplecov-console', '~> 0.9.3', require: false
-  gem 'standard', '~> 1.49'
 end
