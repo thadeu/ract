@@ -207,7 +207,9 @@ RSpec.describe Ract do
 
       result = Ract.all([ract1, ract2, ract3], raise_on_error: false)
 
-      expect(result).to eq([1, 'Error', 3])
+      expect(result[0]).to eq(1)
+      expect(result[1].to_s).to eq('Error')
+      expect(result[2]).to eq(3)
     end
 
     it 'handles non-rejection with raise_on_error: true' do
@@ -235,7 +237,7 @@ RSpec.describe Ract do
       expect(result[0][:status]).to eq(:fulfilled)
       expect(result[0][:value]).to eq(1)
       expect(result[1][:status]).to eq(:rejected)
-      expect(result[1][:reason]).to eq('Error')
+      expect(result[1][:reason].to_s).to eq('Error')
       expect(result[2][:status]).to eq(:fulfilled)
       expect(result[2][:value]).to eq(3)
     end

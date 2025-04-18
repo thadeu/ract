@@ -4,17 +4,15 @@ class Ract
   class Settled
     attr_reader :type, :raise_on_error
 
-    def initialize(promises, type: :all, raise_on_error: true)
+    def initialize(promises, executor: Executor::IsolatedThread, type: :all, raise_on_error: true)
       @results = Array.new(promises.size)
-      @batch = Batch.new(promises)
+      @executor = executor.new(promises)
       @type = type
       @raise_on_error = raise_on_error
     end
 
     def run!
-      return Result.new([]) if @batch.promises.empty?
-
-      @batch.run! do |type, index, value|
+      @executor.run do |type, index, value|
         case type
         when :success
           @results[index] = success_row(value)

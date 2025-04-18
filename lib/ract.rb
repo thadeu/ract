@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
 require 'ract/version'
-require 'ract/batch'
+require 'ract/executor/isolated_abstract'
+require 'ract/executor/isolated_thread'
+require 'ract/class_methods'
+require 'ract/configuration'
 require 'ract/result'
 require 'ract/settled'
 require 'ract/async'
-require 'ract/singleton_methods'
 require 'ract/ract'
 
 # A lightweight Promise implementation for Ruby
