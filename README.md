@@ -6,8 +6,10 @@
 
 Ract is a lightweight Promise implementation for Ruby, simliar color promises in JavaScript providing a clean and intuitive way to handle asynchronous operations.
 
-> [!NOTE] 
-> This is dont use Ractor, we just Threads to handle async operations
+> [!NOTE]
+>
+> This gem don't use Ractor, we just Threads/Fibers to handle async operations
+>
 > Enjoy with us!
 
 
