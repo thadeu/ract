@@ -54,18 +54,22 @@ RSpec.describe 'BarrierTest' do
 
     it 'should be running in the same time' do
       promises = [
-        MethodAsync.execute_async(user_id: 1),
-        MethodAsync.execute_async(user_id: 2),
-        MethodAsync.execute_async(user_id: 3),
-        MethodAsync.execute_async(user_id: 4),
-        MethodAsync.new(user_id: 5).with_ract
+        Ract { sleep 1; 1 },
+        Ract { sleep 1; 2 },
+        Ract { sleep 1; 3 },
+        Ract { sleep 1; 4 },
+        Ract { sleep 1; 5 },
+        Ract { sleep 1; 6 },
+        Ract { sleep 1; 7 },
+        Ract { sleep 1; 8 },
+        Ract { sleep 1; 9 }
       ]
 
       start = Time.now
-      Ract.take(promises, raise_on_error: false)
+      Ract.take(promises)
       elapsed = Time.now - start
 
-      expect(elapsed.to_i).to be <= 0
+      expect(elapsed.to_i).to be <= 1
     end
   end
 
