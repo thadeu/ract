@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'ParalellTest' do
+RSpec.describe 'BarrierTest' do
   context 'async instance method' do
     it 'keep as pending until Thread execute' do
       id4 = MethodAsync.execute_async(user_id: 4)
@@ -116,7 +116,7 @@ RSpec.describe 'ParalellTest' do
     end
   end
 
-  context 'go block' do
+  context 'ract block' do
     it 'should be return an array' do
       class GoBlock < Table::Base
         def self.call(...)

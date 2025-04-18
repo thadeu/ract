@@ -63,7 +63,11 @@ Create a new promise with a block that will be executed asynchronously:
 # Create a promise that resolves with a value
 promise = Ract.new { 42 } # or just Ract { 42 }
 
-# Create a promise that might reject with an error
+# Also use can you without .new
+# IMO, That's is more readable
+promise = Ract { 42 }
+
+# Create a promise that might reject with an error inside de block
 promise = Ract.new do
   if success_condition
     "Success result"
@@ -72,6 +76,9 @@ promise = Ract.new do
   end
 end
 ```
+
+If you only create a IVar with `Ract`, it will be a pending promise, this promise will never resolve or reject itself,
+you need to resolve it using `.then`, `.await`, `Ract#take`, `Ract#all`, `Ract#all_settled`
 
 ### Handling Promise Resolution
 
@@ -137,10 +144,11 @@ Wait for multiple promises to complete:
 ```ruby
 # Wait for all promises to resolve (will raise an error if any promise rejects)
 promises = [Ract.new { task1 }, Ract.new { task2 }]
-combined = Ract.all(promises)
+
+combined = Ract.take(promises)
 
 # Wait for all promises to resolve (will not raise errors, returns results with status)
-combined = Ract.all(promises, raise_on_error: false)
+combined = Ract.take(promises, raise_on_error: false)
 
 # Get results when all are settled (resolved or rejected)
 results = Ract.all_settled(promises)
