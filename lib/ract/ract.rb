@@ -4,15 +4,15 @@ class Ract
   class Error < StandardError; end
   class Rejected < StandardError; end
 
-  PENDING = :pending
+  IDLE = :idle
   FULFILLED = :fulfilled
   REJECTED = :rejected
-  WAITING = :waiting
+  PENDING = :pending
 
   attr_reader :state, :value, :reason
 
   def initialize(value = nil, auto_execute: false, &block)
-    @state = PENDING
+    @state = IDLE
     @value = value
     @reason = nil
     @mutex = Mutex.new
@@ -45,12 +45,12 @@ class Ract
     @state == REJECTED
   end
 
-  def pending?
-    @state == PENDING
+  def idle?
+    @state == IDLE
   end
 
-  def waiting?
-    @state == WAITING
+  def pending?
+    @state == PENDING
   end
 
   def await
@@ -63,7 +63,7 @@ class Ract
 
   def resolve(value = nil)
     synchronize do
-      return if @state != PENDING
+      return if @state != IDLE
 
       @state = FULFILLED
       @value = value.nil? && @block ? @block.call : value
@@ -74,8 +74,7 @@ class Ract
 
   def reject(reason = nil)
     synchronize do
-      # Permitir rejeição quando o promise está em estado PENDING ou WAITING
-      return self if @state != PENDING && @state != WAITING
+      return self if @state != IDLE && @state != PENDING
 
       old_state = @state
       @state = REJECTED
@@ -105,7 +104,7 @@ class Ract
   def then(&block)
     return self unless block_given?
 
-    if @state == PENDING
+    if @state == IDLE
       execute_block
       @callbacks << block
     end
@@ -127,7 +126,7 @@ class Ract
   def rescue(&block)
     return self unless block_given?
 
-    if @state == PENDING
+    if @state == IDLE
       execute_block
       @error_callbacks << block
     end
@@ -138,9 +137,9 @@ class Ract
   end
   alias catch rescue
 
-  def pending!
+  def idle!
     synchronize do
-      @state = PENDING
+      @state = IDLE
       @reason = nil
       @value = nil
     end
@@ -148,10 +147,9 @@ class Ract
     self
   end
 
-  def waiting!
+  def pending!
     synchronize do
-      @state = WAITING
-      # Mantemos reason e value para referência futura
+      @state = PENDING
     end
 
     self

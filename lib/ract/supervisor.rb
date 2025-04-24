@@ -83,7 +83,7 @@ class Ract
         @running = false
 
         @children.each do |child|
-          child.reject!('Supervisor shutdown') if child.pending? || child.waiting?
+          child.reject!('Supervisor shutdown') if child.idle? || child.pending?
         end
 
         return true
@@ -120,21 +120,19 @@ class Ract
 
         all_terminal = @children.all? { |child| child.terminal?(@options[:max_restarts]) }
 
-        if all_terminal
-          active_children = @children.select { |child| child.active?(@options[:max_restarts]) }
+        # If all children are in terminal state or pending
+        # Check if there are any children that haven't reached the restart limit
+        if all_terminal && @children.none? { |child| child.active?(@options[:max_restarts]) }
+          waiting_children = @children.select { |child| child.idle? || child.pending? }
 
-          if active_children.empty?
-            waiting_children = @children.select(&:waiting?)
-
-            unless waiting_children.empty?
-              waiting_children.each do |child|
-                child.reject!('Supervisor stopping - no more active children')
-              end
+          unless waiting_children.empty?
+            waiting_children.each do |child|
+              child.reject!('Supervisor stopping - no more active children')
             end
-
-            @running = false
-            return true
           end
+
+          @running = false
+          return true
         end
 
         return false

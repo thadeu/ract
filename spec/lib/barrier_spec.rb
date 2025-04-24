@@ -7,11 +7,11 @@ RSpec.describe 'BarrierTest' do
     it 'keep as pending until Thread execute' do
       id4 = MethodAsync.execute_async(user_id: 4)
 
-      expect(id4.state).to eq(:pending)
+      expect(id4.state).to eq(:idle)
 
       sleep 0.01
 
-      expect(id4.state).to eq(:pending)
+      expect(id4.state).to eq(:idle)
 
       id4.await
 
@@ -30,7 +30,7 @@ RSpec.describe 'BarrierTest' do
 
       sleep 0.01
 
-      expect(promises.map(&:state).uniq).to eq([:pending])
+      expect(promises.map(&:state).uniq).to eq([:idle])
 
       Ract.take(promises)
 

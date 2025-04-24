@@ -46,17 +46,17 @@ RSpec.describe Ract::Supervisor::Child do
     it 'returns true when promise is rejected and max restarts reached' do
       allow(promise).to receive(:fulfilled?).and_return(false)
       allow(promise).to receive(:rejected?).and_return(true)
-      allow(promise).to receive(:waiting?).and_return(false)
+      allow(promise).to receive(:pending?).and_return(false)
 
       child.instance_variable_set(:@restarts, 3)
 
       expect(child.terminal?(3)).to be true
     end
 
-    it 'returns true when promise is waiting' do
+    it 'returns true when promise is pending' do
       allow(promise).to receive(:fulfilled?).and_return(false)
       allow(promise).to receive(:rejected?).and_return(false)
-      allow(promise).to receive(:waiting?).and_return(true)
+      allow(promise).to receive(:pending?).and_return(true)
 
       expect(child.terminal?(3)).to be true
     end
@@ -64,7 +64,7 @@ RSpec.describe Ract::Supervisor::Child do
     it 'returns false when promise is rejected but max restarts not reached' do
       allow(promise).to receive(:fulfilled?).and_return(false)
       allow(promise).to receive(:rejected?).and_return(true)
-      allow(promise).to receive(:waiting?).and_return(false)
+      allow(promise).to receive(:pending?).and_return(false)
 
       child.instance_variable_set(:@restarts, 2)
 
@@ -100,9 +100,9 @@ RSpec.describe Ract::Supervisor::Child do
   end
 
   describe 'state delegation methods' do
-    it 'delegates waiting? to promise' do
-      expect(promise).to receive(:waiting?)
-      child.waiting?
+    it 'delegates idle? to promise' do
+      expect(promise).to receive(:idle?)
+      child.idle?
     end
 
     it 'delegates fulfilled? to promise' do
@@ -130,9 +130,9 @@ RSpec.describe Ract::Supervisor::Child do
       child.reject!('reason')
     end
 
-    it 'delegates pending! to promise' do
-      expect(promise).to receive(:pending!)
-      child.pending!
+    it 'delegates idle! to promise' do
+      expect(promise).to receive(:idle!)
+      child.idle!
     end
 
     it 'delegates execute_block to promise' do
@@ -200,16 +200,18 @@ RSpec.describe Ract::Supervisor::Child do
   end
 
   describe '#restart' do
-    it 'sets the promise to pending state' do
-      expect(promise).to receive(:pending!)
-      allow(promise).to receive(:execute_block) # Prevent actual execution
+    it 'sets the promise to idle state' do
+      expect(promise).to receive(:idle!)
+
+      allow(promise).to receive(:execute_block)
 
       child.restart(supervisor)
     end
 
     it 'monitors the child again' do
       expect(child).to receive(:monitor).with(supervisor)
-      allow(promise).to receive(:execute_block) # Prevent actual execution
+
+      allow(promise).to receive(:execute_block)
 
       child.restart(supervisor)
     end
@@ -228,13 +230,13 @@ RSpec.describe Ract::Supervisor::Child do
 
   describe '#stats' do
     it 'returns statistics about the child' do
-      allow(promise).to receive(:state).and_return(Ract::PENDING)
+      allow(promise).to receive(:state).and_return(Ract::IDLE)
 
       stats = child.stats(1)
 
       expect(stats).to include(
         index: 1,
-        state: Ract::PENDING,
+        state: Ract::IDLE,
         restart_policy: Ract::Supervisor::PERMANENT,
         restarts: 0
       )

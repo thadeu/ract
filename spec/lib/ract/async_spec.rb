@@ -34,7 +34,7 @@ RSpec.describe Ract::Async do
 
       expect(mock).to respond_to(:call_async)
       expect(mock.call_async).to be_a(Ract)
-      expect(mock.call_async.state).to eq(:pending)
+      expect(mock.call_async.state).to eq(:idle)
 
       promises = [mock.call_async]
       result = Ract.all(promises)
@@ -58,7 +58,7 @@ RSpec.describe Ract::Async do
 
       expect(MockRactModule.respond_to?(:execute)).to eq(true)
       expect(MockRactModule.execute_async).to be_a(Ract)
-      expect(MockRactModule.execute_async.state).to eq(:pending)
+      expect(MockRactModule.execute_async.state).to eq(:idle)
 
       result = Ract.all([MockRactModule.execute_async])
       expect(result[0]).to eq('delayed')

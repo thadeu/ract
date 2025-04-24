@@ -53,7 +53,7 @@ class Ract
 
       def try_block!(arr)
         return unless arr.respond_to?(:execute_block)
-        return unless arr.state == Ract::PENDING
+        return unless [Ract::IDLE, Ract::PENDING].include?(arr.state)
 
         arr.execute_block
       end

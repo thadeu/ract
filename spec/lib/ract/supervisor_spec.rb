@@ -103,7 +103,7 @@ RSpec.describe Ract::Supervisor do
       expect(supervisor.running?).to be false
     end
 
-    it 'rejects all pending promises' do
+    it 'rejects all idle promises' do
       promise1 = Ract.new
       promise2 = Ract.new
 
@@ -144,7 +144,7 @@ RSpec.describe Ract::Supervisor do
 
       expect(stats[:children].first).to include(
         index: 0,
-        state: Ract::PENDING,
+        state: Ract::IDLE,
         restart_policy: Ract::Supervisor::PERMANENT,
         restarts: 0
       )
@@ -199,7 +199,7 @@ RSpec.describe Ract::Supervisor do
 
       supervisor.add_child(temp_promise, restart_policy: Ract::Supervisor::TEMPORARY)
 
-      expect(temp_promise).not_to receive(:pending!)
+      expect(temp_promise).not_to receive(:idle!)
 
       temp_promise.execute_block rescue nil
 
@@ -213,15 +213,14 @@ RSpec.describe Ract::Supervisor do
 
       limited_supervisor.add_child(test_promise)
 
-      # Execute and let it fail multiple times
       3.times do
         test_promise.execute_block rescue nil
         sleep(0.1)
       end
 
-      # Should have been restarted max_restarts times
       child = limited_supervisor.children.first
-      expect(child.restarts).to be <= 3 # May be 2 or 3 depending on timing
+
+      expect(child.restarts).to be <= 3
     end
   end
 
@@ -247,7 +246,7 @@ RSpec.describe Ract::Supervisor do
     it 'keeps the supervisor running when some children are still active' do
       supervisor.start!
       promise1 = Ract.new { "Success" }
-      promise2 = Ract.new # This one stays pending
+      promise2 = Ract.new
 
       supervisor.add_child(promise1)
       supervisor.add_child(promise2)
@@ -276,7 +275,7 @@ RSpec.describe Ract::Supervisor do
       child = supervisor.children.first
 
       # Add an old restart time
-      old_time = Time.now - 10 # 10 seconds ago, beyond the default 5 second window
+      old_time = Time.now - 10
       child.restart_times << old_time
 
       child.record_restart
@@ -286,10 +285,6 @@ RSpec.describe Ract::Supervisor do
       expect(child.restart_times.size).to eq(1)
     end
   end
-
-
-
-
 
   describe 'integration tests' do
     it 'handles a mix of successful and failing promises' do

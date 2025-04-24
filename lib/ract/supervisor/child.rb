@@ -49,7 +49,7 @@ class Ract
       # Check if this child is in a terminal state
       # @return [Boolean] Whether the child is in a terminal state
       def terminal?(max_restarts)
-        fulfilled? || (rejected? && @restarts >= max_restarts) || waiting?
+        fulfilled? || (rejected? && @restarts >= max_restarts) || pending?
       end
 
       # Check if this child is active (not fulfilled and not at max restarts)
@@ -58,10 +58,15 @@ class Ract
         !fulfilled? && !(rejected? && @restarts >= max_restarts)
       end
 
-      # Check if this child is waiting
-      # @return [Boolean] Whether the child is waiting
-      def waiting?
-        @promise.waiting?
+      # Set this child to idle state
+      def idle!
+        @promise.idle!
+      end
+
+      # Check if this child is idle
+      # @return [Boolean] Whether the child is idle
+      def idle?
+        @promise.idle?
       end
 
       # Check if this child is fulfilled
@@ -82,7 +87,6 @@ class Ract
         @promise.pending?
       end
 
-      # Set this child to pending state
       def pending!
         @promise.pending!
       end
@@ -138,10 +142,7 @@ class Ract
       # Restart this child
       # @param supervisor [Supervisor] The supervisor managing this child
       def restart(supervisor)
-        # Ensure the promise is in pending state
-        pending!
-
-        # Set up monitoring again
+        idle!
         monitor(supervisor)
 
         # Execute the block again in a new thread
