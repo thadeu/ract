@@ -39,7 +39,7 @@ class Ract
           ThreadMonitor.register(thread, {
                                    promise_index: index,
                                    promise_object_id: promise.object_id,
-                                   promise_state: promise.state,
+                                   promise_state: promise.state
                                  })
         end
       end

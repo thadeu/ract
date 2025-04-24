@@ -23,7 +23,7 @@ class Ract
         active_threads[thread_id] = {
           thread: thread,
           created_at: Time.now,
-          metadata: metadata,
+          metadata: metadata
         }
 
         # Set up finalizer to clean up when thread is garbage collected
@@ -54,9 +54,9 @@ class Ract
               alive: data[:thread].alive?,
               created_at: data[:created_at],
               runtime: Time.now - data[:created_at],
-              metadata: data[:metadata],
+              metadata: data[:metadata]
             }
-          end,
+          end
         }
       end
 

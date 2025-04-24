@@ -50,10 +50,10 @@ Style/FrozenStringLiteralComment:
   SafeAutoCorrect: true
 
 Style/TrailingCommaInArrayLiteral:
-  EnforcedStyleForMultiline: consistent_comma
+  Enabled: false
 
 Style/TrailingCommaInHashLiteral:
-  EnforcedStyleForMultiline: consistent_comma
+  Enabled: false
 
 # Metric
 
