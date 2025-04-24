@@ -7,6 +7,7 @@ class Ract
   PENDING = :pending
   FULFILLED = :fulfilled
   REJECTED = :rejected
+  WAITING = :waiting
 
   attr_reader :state, :value, :reason
 
@@ -21,16 +22,16 @@ class Ract
     @error_callbacks = []
     @block = block
 
-    if block_given? && auto_execute
-      execute_block
-    end
+    return unless block_given? && auto_execute
+
+    execute_block
   end
 
-  def execute_block
+  def execute_block(...)
     return unless @block
 
     begin
-      resolve(@block.call)
+      resolve(@block.call(...))
     rescue StandardError => e
       reject(e)
     end
@@ -42,6 +43,14 @@ class Ract
 
   def rejected?
     @state == REJECTED
+  end
+
+  def pending?
+    @state == PENDING
+  end
+
+  def waiting?
+    @state == WAITING
   end
 
   def await
@@ -65,13 +74,32 @@ class Ract
 
   def reject(reason = nil)
     synchronize do
-      return if @state != PENDING
+      # Permitir rejeição quando o promise está em estado PENDING ou WAITING
+      return self if @state != PENDING && @state != WAITING
 
+      old_state = @state
       @state = REJECTED
       @reason = reason
       @condition&.broadcast
+
+      Ract.logger.info "Rejecting promise from state #{old_state} to REJECTED"
       execute_error_callbacks
     end
+
+    self
+  end
+
+  def reject!(reason)
+    synchronize do
+      @state = REJECTED
+      @value = reason
+
+      @error_callbacks.each do |callback|
+        callback.call(reason)
+      end
+    end
+
+    self
   end
 
   def then(&block)
@@ -104,13 +132,30 @@ class Ract
       @error_callbacks << block
     end
 
-    if @state == REJECTED
-      block.call(@reason)
-    end
+    block.call(@reason) if @state == REJECTED
 
     self
   end
   alias catch rescue
+
+  def pending!
+    synchronize do
+      @state = PENDING
+      @reason = nil
+      @value = nil
+    end
+
+    self
+  end
+
+  def waiting!
+    synchronize do
+      @state = WAITING
+      # Mantemos reason e value para referência futura
+    end
+
+    self
+  end
 
   class << self
     include ClassMethods
@@ -130,8 +175,8 @@ class Ract
     callbacks.each { |callback| callback.call(@reason) }
   end
 
-  def synchronize(&block)
-    @mutex.synchronize(&block)
+  def synchronize(&)
+    @mutex.synchronize(&)
   end
 end
 

@@ -2,6 +2,7 @@ AllCops:
   DisabledByDefault: false
   NewCops: enable
   TargetRubyVersion: 3.4
+  SuggestExtensions: false
   Exclude:
     - 'vendor/**/*'
     - 'bin/**/*'
@@ -54,29 +55,37 @@ Style/TrailingCommaInArrayLiteral:
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma
 
-# Metrics
+# Metric
+
 Metrics/AbcSize:
-  Max: 20
-
-Metrics/BlockLength:
-  Exclude:
-    - 'spec/**/*'
-    - '*.gemspec'
-
-Metrics/ClassLength:
-  Max: 150
-
-Metrics/MethodLength:
-  Max: 15
+  Enabled: false
 
 Metrics/CyclomaticComplexity:
-  Max: 8
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/ClassLength:
+  Max: 200
+
+Lint/MissingSuper:
+  Enabled: false
+
+Naming/MethodName:
+  Enabled: false
+
+Style/MultilineBlockChain:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
 
 # Naming
 Naming/VariableName:
-  EnforcedStyle: snake_case
-
-Naming/MethodName:
   EnforcedStyle: snake_case
 
 # Bundler

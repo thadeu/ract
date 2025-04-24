@@ -5,6 +5,8 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'rake'
+gem 'logger'
+gem 'rubocop'
 
 group :test do
   gem 'pry', '~> 0.15.2'

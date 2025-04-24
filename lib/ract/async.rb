@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # frozen_string_literal: true # :rdoc
 
 class Ract
@@ -10,13 +12,13 @@ class Ract
       base.extend(ClassMethods)
     end
 
-    def Ract
-      Ract.new { yield }
+    def Ract(&)
+      Ract.new(&)
     end
 
     module ClassMethods
-      def ract
-        Ract { yield }
+      def ract(&)
+        Ract(&)
       end
 
       def async(method_name)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # frozen_string_literal: true # :rdoc
 
 class Ract
@@ -7,7 +9,7 @@ class Ract
         raise NotImplementedError
       end
 
-      def run(&block)
+      def run(&)
         raise NotImplementedError
       end
     end

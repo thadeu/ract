@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # frozen_string_literal: true # :rdoc
 
 class Ract
@@ -26,10 +28,10 @@ class Ract
       self
     end
 
-    def each(&block)
+    def each(&)
       return enum_for(:each) unless block_given?
 
-      @value.each(&block)
+      @value.each(&)
 
       self
     end

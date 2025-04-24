@@ -8,6 +8,8 @@ require 'ract/configuration'
 require 'ract/result'
 require 'ract/settled'
 require 'ract/async'
+require 'ract/thread_monitor'
+require 'ract/supervisor'
 require 'ract/ract'
 
 # A lightweight Promise implementation for Ruby
@@ -72,5 +74,9 @@ require 'ract/ract'
 #
 #   p result -> [1, 2]
 #
+
+# rubocop:disable Lint/EmptyClass
 class Ract
+  # Wrapper to class
 end
+# rubocop:enable Lint/EmptyClass

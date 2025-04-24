@@ -22,6 +22,7 @@ Ract is a lightweight Promise implementation for Ruby, simliar color promises in
 - Similar to JavaScript Promises
 - Clean and intuitive API
 - Easy to use
+- Thread monitoring capabilities
 
 ## Installation
 
@@ -196,6 +197,33 @@ end
 
 # Use the async method
 result = fetch_data.await
+```
+
+### Thread Monitoring
+
+Ract provides built-in thread monitoring capabilities that allow you to track and manage threads created by promises:
+
+```ruby
+# Enable thread monitoring in your configuration
+Ract.configure do |config|
+  config.monitor_enabled = true  # Enable thread monitoring
+  config.monitor_cleanup_dead = true  # Automatically cleanup dead threads
+end
+
+# Create some promises
+promises = 5.times.map { |i| Ract { sleep(rand); i } }
+
+# Get thread statistics
+stats = Ract::ThreadMonitor.stats
+puts "Total threads: #{stats[:total_count]}"
+puts "Alive threads: #{stats[:alive_count]}"
+puts "Dead threads: #{stats[:dead_count]}"
+
+# Manually cleanup dead threads
+Ract::ThreadMonitor.cleanup_dead_threads
+
+# Kill all threads (use with caution)
+# Ract::ThreadMonitor.kill_all
 ```
 
 ### Examples using many callable promises

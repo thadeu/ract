@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 # frozen_string_literal: true # :rdoc
 
 class Ract
   module ClassMethods
-    def resolve(value = nil, auto_execute: false)
+    def resolve(value = nil)
       new(auto_execute: true) { value }.await
     end
 
-    def reject(reason = nil, auto_execute: false)
+    def reject(reason = nil)
       new(auto_execute: true) { raise Rejected, reason }.await
     end
 

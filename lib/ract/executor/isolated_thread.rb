@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # frozen_string_literal: true # :rdoc
 
 class Ract
@@ -11,16 +13,16 @@ class Ract
         @remaining = promises.size
       end
 
-      def run(&block)
+      def run(&)
         return if @promises.empty?
 
         enqueue
-        dequeue(&block)
+        dequeue(&)
       end
 
       def enqueue
         @promises.each_with_index do |promise, index|
-          Thread.new do
+          thread = Thread.new do
             try_block!(promise)
 
             promise.then do |value|
@@ -31,6 +33,14 @@ class Ract
           rescue StandardError => e
             @queue << [:error, index, e]
           end
+
+          next unless Ract.config.monitor_enabled
+
+          ThreadMonitor.register(thread, {
+                                   promise_index: index,
+                                   promise_object_id: promise.object_id,
+                                   promise_state: promise.state,
+                                 })
         end
       end
 
